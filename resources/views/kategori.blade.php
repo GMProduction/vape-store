@@ -10,7 +10,7 @@
 
             
         <div class="slider">
-            <img src="https://dynamic.zacdn.com/wg4qiGb0sFVvz_8zkSpPREj-5fE=/fit-in/346x500/filters:quality(90):fill(ffffff)/http://static.id.zalora.net/p/ocean-toy-0853-7195672-1.jpg" alt="img04" />
+            <img src="https://lostvape.com/wp-content/uploads/2020/09/Z100A_01.jpg" alt="img04" />
         </div>
         <div style="height: 50px"></div>
     </section>
@@ -23,7 +23,7 @@
                 <div class="col-lg-3">
                     <a class="cardku" href="/detail">
                         <img
-                            src="https://images.tokopedia.net/img/cache/900/product-1/2020/3/23/97199234/97199234_8a94e9d7-d20a-418c-a869-6744090c5407_684_684.jpg" />
+                            src="https://lostvape.com/wp-content/uploads/2020/09/Z100A_01.jpg" />
                         <div class="content">
                             <p class="title mb-0">Mainan Lego</p>
                             <p class="description mb-0">Mainan lego untuk anak2</p>
