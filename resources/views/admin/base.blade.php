@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Percetakan</title>
+    <title>Kaka Acc</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -32,7 +32,7 @@
     <div class="side-navbar active-nav d-flex justify-content-between  flex-wrap flex-column" id="sidebar">
         <ul class="nav flex-column text-white w-100 h-100">
             <a href="#" class="nav-link h3 text-white my-2">
-                Percetakan
+                Kaka Acc
             </a>
 
 
