@@ -25,8 +25,8 @@
                         <img
                             src="https://lostvape.com/wp-content/uploads/2020/09/Z100A_01.jpg" />
                         <div class="content">
-                            <p class="title mb-0">Mainan Lego</p>
-                            <p class="description mb-0">Mainan lego untuk anak2</p>
+                            <p class="title mb-0">AAA JARVIS PRO POD CARTRIDGE 1.4 OHM<</p>
+                            <p class="description mb-0">Rp. 24,000</p>
 
                         </div>
                     </a>

@@ -14,12 +14,15 @@
                     <div class="inner-column">
                         <div class="sec-title">
                             <span class="title">Tentang Kami</span>
-                            <h2>KAKA ACC </h2>
+                            <h2>Yuki Vape </h2>
                         </div>
-                        <div class="text">Jl. Pengging- Banyudono, Cikalang, Ngaru Aru, Kec. Banyudono, Kabupaten Boyolali, Jawa Tengah 57373.</div>
+                        <div class="text">It's not just a store. it's a vapestore.</div>
+                        <div class="text">Jl. Gatot Subroto No.238b, Kratonan, Kec. Serengan, Kota Surakarta, Jawa Tengah 57151.</div>
+                        <div class="text">0857-2501-6958.</div>
                         <ul class="list-style-one">
-                            <li>Berbagai macam aksesoris</li>
-                            <li>Mainan Anak</li>
+                            <li>Baterai</li>
+                            <li>Coil</li>
+                            <li>Pod</li>
                         </ul>
                         <div class="btn-box">
                             <a href="#" class="theme-btn btn-style-one">Contact Us</a>
