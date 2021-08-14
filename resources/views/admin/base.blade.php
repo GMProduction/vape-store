@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kaka Acc</title>
+    <title>VapeStore</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -24,7 +24,7 @@
     <!-- custom css -->
 
     <script src="{{ asset('js/swal.js') }}"></script>
-
+@yield('css')
 </head>
 
 <body>
@@ -32,11 +32,9 @@
     <div class="side-navbar active-nav d-flex justify-content-between  flex-wrap flex-column" id="sidebar">
         <ul class="nav flex-column text-white w-100 h-100">
             <a href="#" class="nav-link h3 text-white my-2">
-                Kaka Acc
+               Vapestore
             </a>
 
-
-            
             <a href="/admin">
                 <li href="#" class="nav-link t-white">
                     <i class="bx bxs-dashboard"></i>
@@ -44,14 +42,24 @@
                 </li>
             </a>
 
+            <a href="/admin/kategori">
+                <li href="#" class="nav-link t-white">
+                    <i class="bx bxs-cube"></i>
+                    <span class="mx-2">Master Kategori</span>
+                </li>
+            </a>
             <a href="/admin/produk">
                 <li href="#" class="nav-link t-white">
                     <i class="bx bxs-cube"></i>
                     <span class="mx-2">Master Produk</span>
                 </li>
             </a>
-
-
+            <a href="/admin/bank">
+                <li href="#" class="nav-link t-white">
+                    <i class="bx bxs-cube"></i>
+                    <span class="mx-2">Master Bank</span>
+                </li>
+            </a>
             <a href="/admin/pelanggan">
                 <li href="#" class="nav-link t-white">
                     <i class="bx bxs-group"></i>
@@ -69,7 +77,7 @@
 
             </a>
 
-           
+
 
 
             <a href="/logout" class="mt-auto">
@@ -103,6 +111,8 @@
     <script src="{{ asset('js/myStyle.js') }}"></script>
     <script src="{{ asset('js/sidebar.js') }}"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="{{ asset('js/dialog.js') }}"></script>
+
     @yield('script')
 </body>
 

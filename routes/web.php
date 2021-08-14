@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\BankController;
+use App\Http\Controllers\Admin\KategoriController;
+use App\Http\Controllers\Admin\ProdukController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BarangController;
 use Illuminate\Support\Facades\Route;
@@ -84,21 +87,32 @@ Route::get('/user/profil', function () {
 });
 
 
-Route::get('/admin', function () {
-    return view('admin/dashboard');
+Route::prefix('/admin')->group(function (){
+    Route::get('/', function () {
+        return view('admin.dashboard');
+    });
+
+    Route::match(['get','post'],'/bank', [BankController::class,'index']);
+    Route::get('/kategori', [KategoriController::class,'index']);
+    Route::post('/kategori', [KategoriController::class,'addKategori']);
+
+    Route::prefix('/produk')->group(function (){
+        Route::match(['post','get'],'/', [ProdukController::class,'index']);
+        Route::get('/kategori', [KategoriController::class,'dataKategori'])->name('produk_kategori');
+        Route::post('/image', [ProdukController::class,'addImage']);
+    });
+
+    Route::get('/pelanggan', function () {
+        return view('admin/pelanggan/pelanggan');
+    });
+
+    Route::get('/pesanan', function () {
+        return view('admin/pesanan/pesanan');
+    });
 });
 
-Route::get('/admin/produk', function () {
-    return view('admin/produk/produk');
-});
+Route::get('/kategori', [KategoriController::class,'dataKategori'])->name('produk_kategori');
 
-Route::get('/admin/pelanggan', function () {
-    return view('admin/pelanggan/pelanggan');
-});
-
-Route::get('/admin/pesanan', function () {
-    return view('admin/pesanan/pesanan');
-});
 
 
 
