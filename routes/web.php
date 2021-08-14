@@ -92,6 +92,17 @@ Route::get('/admin/produk', function () {
     return view('admin/produk/produk');
 });
 
+
+Route::get('/admin/kategori', function () {
+    return view('admin/kategori/kategori');
+});
+
+Route::get('/admin/banner', function () {
+    return view('admin/banner/banner');
+});
+
+
+
 Route::get('/admin/pelanggan', function () {
     return view('admin/pelanggan/pelanggan');
 });

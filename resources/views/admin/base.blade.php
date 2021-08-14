@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kaka Acc</title>
+    <title>Yuki Vape</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -32,7 +32,7 @@
     <div class="side-navbar active-nav d-flex justify-content-between  flex-wrap flex-column" id="sidebar">
         <ul class="nav flex-column text-white w-100 h-100">
             <a href="#" class="nav-link h3 text-white my-2">
-                Kaka Acc
+                Yuki Vape
             </a>
 
 
@@ -41,6 +41,20 @@
                 <li href="#" class="nav-link t-white">
                     <i class="bx bxs-dashboard"></i>
                     <span class="mx-2">Dashboard</span>
+                </li>
+            </a>
+
+            <a href="/admin/banner">
+                <li href="#" class="nav-link t-white">
+                    <i class='bx bx-images'></i>
+                    <span class="mx-2">Banner</span>
+                </li>
+            </a>
+
+            <a href="/admin/kategori">
+                <li href="#" class="nav-link t-white">
+                    <i class='bx bx-customize'></i>
+                    <span class="mx-2">Master Kategori</span>
                 </li>
             </a>
 
