@@ -40,9 +40,9 @@ class KategoriController extends CustomController
         }
         if ($this->request->get('id')) {
             $kategori = Kategori::find($this->request->get('id'));
-            if ($img && $kategori->url_gambar){
-                if (file_exists('../public'.$kategori->url_gambar)) {
-                    unlink('../public'.$kategori->url_gambar);
+            if ($img && $kategori->url_foto){
+                if (file_exists('../public'.$kategori->url_foto)) {
+                    unlink('../public'.$kategori->url_foto);
                 }
             }
             $kategori->update($field);

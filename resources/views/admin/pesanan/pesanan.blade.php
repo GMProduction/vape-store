@@ -18,7 +18,7 @@
 
             <div class="d-flex">
                 <h5 class="mb-3">Pesanan</h5>
-                
+
                 <div class="ms-auto">
                     <div class="mb-3">
                         <label for="kategori" class="form-label">Status Pembayaran</label>
@@ -33,236 +33,232 @@
                     </div>
                 </div>
 
-                <div class="ms-2">
-                    <div class="mb-3">
-                        <label for="kategori" class="form-label">Status</label>
-                        <div class="d-flex">
-                            <select class="form-select" aria-label="Default select example" name="kategori">
-                                <option selected>Semua</option>
-                                <option value="1">Menunggu Pembayaran</option>
-                                <option value="2">Menunggu Pengiriman</option>
-                                <option value="3">Dikirim</option>
-                                <option value="4">Selesai</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+
             </div>
 
             <table class="table table-striped table-bordered ">
                 <thead>
-                    <th>
-                        #
-                    </th>
-                    <th>
-                        Nama Pelanggan
-                    </th>
-                    <th>
-                        Tanggal Pesan
-                    </th>
-
-                    <th>
-                        Total Harga
-                    </th>
-
-                    <th>
-                        Action
-                    </th>
-
+                <tr>
+                    <th>#</th>
+                    <th>Nama Pelanggan</th>
+                    <th>Tanggal Pesan</th>
+                    <th>Total Harga</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
                 </thead>
 
-                <tr>
-                    <td>
-                        1
-                    </td>
-                    <td>
-                        Joko
-                    </td>
-                    <td>
-                        13 Agustus 2021
-                    </td>
-                    <td>
-                        1.000.000
-                    </td>
-
-                    <td>
-                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                            data-bs-target="#detail1">Detail</button>
-                    </td>
-                </tr>
+                @forelse($data as $key => $d)
+                    <tr>
+                        <td>{{$key+1}}</td>
+                        <td>{{$d->getPelanggan->nama}}</td>
+                        <td>{{date('d F Y', strtotime($d->tanggal_pesanan))}}</td>
+                        <td>Rp. {{number_format($d->total_harga, 0)}}</td>
+                        <td>{{$d->status_pesanan == 1 ? 'Menungu Konfirmasi' : ($d->status_pesanan == 2 ? 'Dikemas' : ($d->status_pesanan == 3 ? 'Dikirim' : ($d->status_pesanan == 4 ? 'Selesai' : ($d->status_pesanan === 5 ? 'Dikembalikan' : 'Menunggu Pembayaran' ))))}}</td>
+                        <td>
+                            <button type="button" class="btn btn-primary btn-sm" data-id="{{$d->id}}" id="detailData">Detail
+                            </button>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="5" class="text-center">Tidan ada data pesanan</td>
+                    </tr>
+                @endforelse
 
             </table>
+            <div class="d-flex justify-content-end">
+                {{$data->links()}}
+            </div>
 
         </div>
 
 
-    <!-- Modal Detail-->
-    <div class="modal fade" id="detail1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Detail</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-
-
-                    <div class="row ">
-                        <div class="col-8">
-                            <div class="row  border rounded p-3 g-2">
-                                <div class="col-6">
-                                    <div class="mb-3">
-                                        <label for="dtanggalPesanan" class="form-label fw-bold">Tanggal</label>
-                                        <p  id="dtanggalPesanan">21 Agustus 2021</p>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="dNamaPelanggan" class="form-label fw-bold">Nama Pelanggan</label>
-                                        <p id="dNamaPelanggan">Joko</p>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label for="dAlamatPengiriman" class="form-label fw-bold">Alamat Pengiriman</label>
-                                        <textarea type="text" class="form-control" readonly
-                                            id="dAlamatPengiriman"></textarea>
-                                    </div>
-                                </div>
-
-                                <div class="col-6">
-
-
-                                    <p class="mb-0 fw-bold">Biaya</p>
-                                    <div class="d-flex justify-content-between">
-                                        <p>Pesanan</p>
-                                        <h5 class="mb-0">Rp. 1.000.000</h5>
-
-                                    </div>
-
-                                    <div class="d-flex justify-content-between">
-                                        <p>Ongkir</p>
-                                        <h5 class="mb-0">Rp. 12.000</h5>
-
-                                    </div>
-
-                                    <hr>
-
-                                    <div class="d-flex justify-content-between">
-                                        <p>Total</p>
-                                        <h4 class="mb-5 fw-bold">Rp. 1.012.000</h4>
-
-                                    </div>
-
-
-                                </div>
-                            </div>
-
-                        </div>
-
-
-
-                        <div class="col-4 border rounded p-3">
-
-                            <div class="mb-3">
-                                <a for="dBuktiTransfer" class="d-block">Bukti Transfer</a>
-                                <a style="cursor: pointer"
-                                    href="https://images.tokopedia.net/img/cache/900/product-1/2020/4/10/22258225/22258225_4e32e5f1-82ec-47bd-8202-5b0ca54ded39_1000_1000"
-                                    target="_blank">
-                                    <img src="https://images.tokopedia.net/img/cache/900/product-1/2020/4/10/22258225/22258225_4e32e5f1-82ec-47bd-8202-5b0ca54ded39_1000_1000"
-                                        style="width: 100px; height: 50px; object-fit: cover" />
-                                </a>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="kategori" class="form-label">Pembayaran</label>
-                                <div class="d-flex">
-                                    <button type="submit" class="btn btn-sm btn-success me-2">Terima</button>
-                                    <button type="submit" class="btn btn-sm btn-danger">Tolak</button>
-                                </div>
-                            </div>
-
-                            <div>
-                                <p>Action</p>
-                                <a  class="btn btn-sm btn-primary">chat</a>
-                                <a  class="btn btn-sm btn-warning">Kirim Barang</a>
-                                <a  class="btn btn-sm btn-success">Selesai</a>
-                            </div>
-                        </div>
+        <!-- Modal Detail-->
+        <div class="modal fade" id="detail1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Detail</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
+                    <div class="modal-body">
+                        <div class="row ">
+                            <div class="col-8">
+                                <div class="row  border rounded p-3 g-2">
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="dtanggalPesanan" class="form-label fw-bold">Tanggal</label>
+                                            <p id="dtanggalPesanan"></p>
+                                        </div>
 
-                    <div class="table-container mt-5">
+                                        <div class="mb-3">
+                                            <label for="dNamaPelanggan" class="form-label fw-bold">Nama Pelanggan</label>
+                                            <p id="dNamaPelanggan"></p>
+                                        </div>
 
-                        <h5 class="mb-3">Isi Keranjang Pesanan</h5>
-            
-                        <table class="table table-striped table-bordered ">
-                            <thead>
-                                <th>
-                                    #
-                                </th>
-                                <th>
-                                    Produk
-                                </th>
-                                <th>
-                                    Qty
-                                </th>
-            
-                                <th>
-                                    Total Harga
-                                </th>
-            
-            
-                            </thead>
-            
-                            <tr>
-                                <td>
-                                    1
-                                </td>
-                                <td>
-                                    Mainan Anak
-                                </td>
-                                <td>
-                                    13
-                                </td>
-                                <td>
-                                    1.012.000
-                                </td>
-            
-                            
-                            </tr>
-            
-                        </table>
-            
+                                        <div class="mb-3">
+                                            <label for="dAlamatPengiriman" class="form-label fw-bold">Alamat Pengiriman</label>
+                                            <p id="dAlamatPengirimanKota" class="mb-0"></p>
+                                            <textarea type="text" class="form-control" readonly
+                                                      id="dAlamatPengiriman"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <p class="mb-0 fw-bold">Biaya</p>
+                                        <div class="d-flex justify-content-between">
+                                            <p>Pesanan</p>
+                                            <h5 class="mb-0" id="dBiaya"></h5>
+
+                                        </div>
+
+                                        <div class="d-flex justify-content-between">
+                                            <p>Ongkir</p>
+                                            <h5 class="mb-0" id="dOngkir"></h5>
+
+                                        </div>
+
+                                        <hr>
+
+                                        <div class="d-flex justify-content-between">
+                                            <p>Total</p>
+                                            <h4 class="mb-5 fw-bold" id="dTotal"></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4 border rounded px-3">
+                                <div class="mb-3">
+                                    <a for="dBuktiTransfer" class="d-block">Bukti Transfer</a>
+                                    <a id="dBuktiTransfer" style="cursor: pointer"
+                                       href=""
+                                       target="_blank">
+                                        <img src=""
+                                             style="width: 100px; height: 50px; object-fit: cover"/>
+                                    </a>
+                                </div>
+
+                                <div class="mb-3 d-none" id="btnKonfirmasi">
+                                    <label for="kategori" class="form-label">Konfirmasi Pembayaran</label>
+                                    <div class="d-flex">
+                                        <button type="submit" class="btn btn-sm btn-success me-2" onclick="saveKonfirmasi(2)">Terima</button>
+                                        <button type="submit" class="btn btn-sm btn-danger" onclick="saveKonfirmasi(0)">Tolak</button>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <p>Action</p>
+                                    <a class="btn btn-sm btn-primary">chat</a>
+                                    <a class="btn btn-sm btn-warning d-none" id="btnKirim" onclick="saveKonfirmasi(3)">Kirim Barang</a>
+                                </div>
+
+                                <div class="mt-3">
+                                    <p class="mb-1">Status : <span id="dStatus" class="fw-bold"></span></p>
+                                    <p id="dAlasan"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-container mt-5">
+                            <h5 class="mb-3">Isi Keranjang Pesanan</h5>
+                            <div style="max-height: 300px" class="overflow-auto">
+                                <table class="table table-striped table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Gambar</th>
+                                        <th>Produk</th>
+                                        <th>Qty</th>
+                                        <th>Keterangan</th>
+                                        <th>Total Harga</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="tabelDetail"></tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </section>
 
 @endsection
 
 @section('script')
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
 
         })
+        var idPesanan;
+        $(document).on('click', '#detailData', function () {
+            idPesanan = $(this).data('id');
+            getDetail(idPesanan);
+            $('#detail1').modal('show');
+        })
 
-        function hapus(id, name) {
-            swal({
-                    title: "Menghapus data?",
-                    text: "Apa kamu yakin, ingin menghapus data ?!",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
+        function getDetail() {
+            $.get('/admin/pesanan/' + idPesanan, function (data) {
+                console.log(data);
+                $('#dNamaPelanggan').html(data['get_pelanggan']['nama'])
+                $('#dAlamatPengirimanKota').html(data['get_expedisi']['nama_kota'] + ' - ' + data['get_expedisi']['nama_propinsi'])
+                $('#dAlamatPengiriman').html(data['alamat_pengiriman'])
+                $('#dtanggalPesanan').html(moment(data['tanggal_pesanan']).format('DD MMMM YYYY'))
+                var biaya = parseInt(data['total_harga'] - data['biaya_pengiriman']);
+                $('#dBiaya').html(biaya.toLocaleString())
+                $('#dOngkir').html(data['biaya_pengiriman'].toLocaleString())
+                $('#dTotal').html(data['total_harga'].toLocaleString())
+                $('#dBuktiTransfer').attr('href', data['url_pembayaran'])
+                $('#dBuktiTransfer img').attr('src', data['url_pembayaran'])
+                var status = data['status_pesanan'];
+                var txtStatus = 'Menunggu Pembayaran';
+                $('#btnKonfirmasi').addClass('d-none')
+                $('#btnKirim').addClass('d-none')
+                $('#dAlasan').html('')
+                if (status === 1) {
+                    $('#btnKonfirmasi').removeClass('d-none')
+                    txtStatus = 'Menunggu Konfirmasi'
+                }else if(status === 2){
+                    $('#btnKirim').removeClass('d-none')
+                    txtStatus = 'Dikemas'
+                }else if(status === 3){
+                    txtStatus = 'Dikirim'
+                }else if(status === 4){
+                    txtStatus = 'Selesai'
+                }else if(status === 5){
+                    txtStatus = 'Dikembalikan'
+                    $('#dAlasan').html(data['get_retur']['alasan'])
+                }
+
+                $('#dStatus').html(txtStatus)
+
+                var tabel = $('#tabelDetail');
+                tabel.empty();
+                $.each(data['get_keranjang'], function (key, value) {
+                    tabel.append('<tr>' +
+                        '<td>' + parseInt(key + 1) + '</td>' +
+                        '<td><img src="' + value['get_produk']['get_image'][0]['url_foto'] + '" height="50"/></td>' +
+                        '<td>' + value['get_produk']['nama_produk'] + '</td>' +
+                        '<td>' + value['qty'] + '</td>' +
+                        '<td>' + value['keterangan'] + '</td>' +
+                        '<td>' + value['total_harga'].toLocaleString() + '</td>' +
+                        '</tr>')
                 })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        swal("Berhasil Menghapus data!", {
-                            icon: "success",
-                        });
-                    } else {
-                        swal("Data belum terhapus");
-                    }
-                });
+            })
+        }
+
+        function saveKonfirmasi(a) {
+            var title = 'Tolak Pembayaran'
+            if (a === 2) {
+                title = 'Terima Pembayaran'
+            }else if(a === 3){
+                title = 'Kirim Pesanan'
+            }
+            var form_data = {
+                'status' : a,
+                '_token' : '{{csrf_token()}}'
+            };
+            saveDataObject(title,form_data,'/admin/pesanan/'+idPesanan,getDetail)
         }
     </script>
 

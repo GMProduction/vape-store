@@ -2,68 +2,58 @@
 
 @section('contentUser')
 
-  
+
 
     <section class="container">
 
-        <div class="row item-box">
-            <div class="col-6">
-                <div class="d-flex">
-
-                    <div class="ms-4">
-                        <p class="title mb-0">Nomor Pesanan : 123</p>
-                        <hr>
-                        <p class="qty">tanggal</p>
-                        <p class="keterangan">alamat pengiriman</p>
-                        <p class="totalHarga">Total Harga</p>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-6">
-                <p>Produk yang di beli</p>
-                <div class="item-box">
+        @forelse($data as $d)
+            <div class="row item-box mb-4">
+                <div class="col-6">
                     <div class="d-flex">
-                        <img
-                            src="https://vp.vapehan.com/api/images/product/aaa-jarvis-pro-pod-cartridge-1.4-ohm-1pcs-.jpg" />
-                        <div class="ms-4 flex-fill">
-                            <div class="d-flex justify-content-between">
-                                <p class="title">Nama Produk</p>
-                                
-                            </div>
-                            <p class="qty mb-3">Qty</p>
-                            <p class="keterangan mb-0">Keterangan</p>
+
+                        <div class="ms-4">
+                            <p class="title mb-0">Nomor Pesanan : {{$d->id}}</p>
+                            <hr>
+                            <p class="qty">{{date('d F Y', strtotime($d->tanggal_pesan))}}</p>
+                            <p class="keterangan">{{$d->getExpedisi->nama_kota}} - {{$d->getExpedisi->nama_propinsi}}</p>
+                            <p class="keterangan">{{$d->alamat_pengiriman}}</p>
+                            <p class="totalHarga">Rp. {{number_format($d->total_harga, 0)}}</p>
                         </div>
 
                     </div>
 
                 </div>
 
-                <div class="item-box">
-                    <div class="d-flex">
-                        <img
-                            src="https://vp.vapehan.com/api/images/product/aaa-jarvis-pro-pod-cartridge-1.4-ohm-1pcs-.jpg" />
-                        <div class="ms-4 flex-fill">
-                            <div class="d-flex justify-content-between">
-                                <p class="title">Nama Produk</p>
-                               
+                <div class="col-6">
+                    <p>Produk yang di beli</p>
+                    @forelse($d->getKeranjang as $k)
+                        <div class="item-box mb-2">
+                            <div class="d-flex">
+                                <img
+                                    src="{{$k->getProduk->getImage[0]->url_foto}}"/>
+                                <div class="ms-4 flex-fill">
+                                    <div class="d-flex justify-content-between">
+                                        <p class="title">{{$k->getProduk->nama_produk}}</p>
+                                    </div>
+                                    <p class="qty mb-3">Qty : {{$k->qty}}</p>
+                                    <p class="totalHarga mb-3" style="font-size: 1rem; color: black">Harga : Rp. {{number_format($k->total_harga,0)}}</p>
+                                    <p class="keterangan mb-0">{{$k->keterangan}}</p>
+                                </div>
                             </div>
-                            <p class="qty mb-3">Qty</p>
-                            <p class="keterangan mb-0">Keterangan</p>
                         </div>
-
-                    </div>
-
+                    @empty
+                        <h5 class="text-center">Tidak ada data menunggu konfirmasi</h5>
+                    @endforelse
                 </div>
-               
+
             </div>
-        </div>
+        @empty
+            <h4 class="text-center">Tidak ada data pesanan</h4>
+        @endforelse
 
 
 
-    
+
     </section>
 
 
@@ -73,7 +63,7 @@
 
     <script>
         $(document).ready(function() {
-            
+
             $("#menunggu").addClass("active");
         });
     </script>

@@ -19,6 +19,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('slick/slick.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('slick/slick-theme.css') }}" />
     <link href="https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css" rel="stylesheet" />
+    <script src="{{ asset('js/swal.js') }}"></script>
 
     @yield('moreCss');
 </head>
@@ -45,7 +46,7 @@
                         </li>
 
 
-{{-- 
+{{--
                         <li class="nav-item">
                             <a class="nav-link" href="/belanja">Belanja</a>
                         </li> --}}
@@ -76,17 +77,20 @@
                         <a style="position: relative;">
 
                             <i class='bx bx-cart-alt profile-userpic me-3' style="font-size: 1.7rem; position: relative;">
-                           
+
                                 <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
                                     <span class="visually-hidden">New alerts</span>
                                   </span>
                                 </i>
                         </a>
 
-                        <a href="/user">
-                            <img class="profile-userpic" src="{{ asset('static-image/profile.png') }}" />
-
-                        </a>
+                        @if (auth()->user())
+                            <a href="/{{auth()->user()->roles}}">
+                                <img class="profile-userpic" src="{{ asset('static-image/profile.png') }}" />
+                            </a>
+                        @else
+                            <a href="/login" type="button" class="btn btn-outline-primary btn-sm">Login</a>
+                        @endif
                     @endif
 
                 </div>
@@ -213,6 +217,8 @@
     <script src="{{ asset('bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('js/myStyle.js') }}"></script>
     <script type="text/javascript" src="{{ asset('slick/slick.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/dialog.js') }}"></script>
+
     @yield('script')
 
 

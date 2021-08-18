@@ -14,6 +14,12 @@ class ProdukController extends CustomController
 {
     //
     public function index(){
+
+        $produk = Produk::paginate(10);
+        return view('admin.produk.produk')->with(['data' => $produk]);
+    }
+
+    public function data(){
         if ($this->request->isMethod('POST')){
             $field = \request()->validate(
                 [
@@ -28,15 +34,15 @@ class ProdukController extends CustomController
                 $produk = Produk::find($this->request->get('id'));
                 $produk->update($field);
             } else {
-                Produk::create($field);
+                $produk= Produk::create($field);
 
             }
             return response()->json([
-                'msg' => 'berhasil'
+                'data' => $produk
             ],200);
         }
-        $produk = Produk::paginate(10);
-        return view('admin.produk.produk')->with(['data' => $produk]);
+        $produk = Produk::find($this->request->get('id'));
+        return view('admin.produk.addData')->with(['data' => $produk]);
     }
 
     public function addImage(){
@@ -60,7 +66,15 @@ class ProdukController extends CustomController
         }
 
         $image = FotoProduk::where('id_produk','=',$this->request->get('id'))->get();
-        return $image;
+        $data = [];
+        foreach ($image as $key => $im) {
+            $data[$key] = [
+                'id'    => $im['id'],
+                'image' => $im['url_foto'],
+                'size'  => filesize(public_path($im['url_foto'])),
+            ];
+        }
+        return $data;
     }
 
     public function saveImg($file)

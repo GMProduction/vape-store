@@ -1,16 +1,26 @@
 @extends('base')
 
 @section('moreCss')
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/shimer.css') }}"/>
+
 @endsection
 
 @section('content')
-
+    <style>
+        .card-shimer {
+            height: 70px;
+            padding: 16px;
+            border-radius: 15px;
+            margin: 16px;
+            box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+        }
+    </style>
     <section>
         <div style="height: 57px"></div>
 
         <div class="slider">
-            <img src="https://lostvape.com/wp-content/uploads/2020/09/Z100A_01.jpg" />
-            <img src="https://vp.vapehan.com/api/images/banners/1.jpg" />
+{{--            <img src="https://lostvape.com/wp-content/uploads/2020/09/Z100A_01.jpg"/>--}}
+{{--            <img src="https://vp.vapehan.com/api/images/banners/1.jpg"/>--}}
         </div>
 
         <div style="height: 50px"></div>
@@ -20,31 +30,17 @@
         <hr class="underline">
 
         <div class="slider-kategori ">
-            <div>
-                <a class="card-kategori" href="/kategori">
-                    <img
-                        src="https://vp.vapehan.com/api/images/product/bcatp-imr-18650-2500mah-35a-.jpg">
-                    <p class="title">Battery</p>
-
-                </a>
-            </div>
-            <div>
-                <a class="card-kategori" href="/kategori">
-                    <img
-                        src="https://vp.vapehan.com/api/images/product/uwell-caliburn-koko-cartridge-1pcs-.jpg">
-                    <p class="title">Catridge</p>
-
-                </a>
-            </div>
-            <div>
-                <a class="card-kategori" href="/kategori">
-                    <img
-                        src="https://vp.vapehan.com/api/images/product/oris-el-lien-prebuild-alien-fused-clapton-.jpg">
-                    <p class="title">Coil</p>
-
-                </a>
-            </div>
-          
+            @forelse($kategori as $d)
+                <div>
+                    <a class="card-kategori shine" href="/produk?kategori={{$d->nama_kategori}}">
+                        <img
+                            src="{{$d->url_foto}}">
+                        <p class="title">{{$d->nama_kategori}}</p>
+                    </a>
+                </div>
+            @empty
+                <h4 class="text-center">Tidak ada Kategori</h4>
+            @endforelse
         </div>
 
 
@@ -54,53 +50,21 @@
             <hr class="underline">
 
             <div class="row">
-
-
-                <div class="col-lg-3">
-                    <a class="cardku" href="/detail">
-                        <img
-                            src="https://vp.vapehan.com/api/images/product/rpm-80-rgc-empty-cartridge-1pcs-.jpg" />
-                        <div class="content">
-                            <p class="title mb-0">AAA JARVIS PRO POD CARTRIDGE 1.4 OHM</p>
-                            <p class="description mb-0">Rp. 24,000</p>
-
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3">
-                    <a class="cardku" href="/detail">
-                        <img
-                            src="https://vp.vapehan.com/api/images/product/rpm-80-rgc-empty-cartridge-1pcs-.jpg" />
-                        <div class="content">
-                            <p class="title mb-0">AAA JARVIS PRO POD CARTRIDGE</p>
-                            <p class="description mb-0">Rp. 24,000</p>
-
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3">
-                    <a class="cardku" href="/detail">
-                        <img
-                            src="https://vp.vapehan.com/api/images/product/rpm-80-rgc-empty-cartridge-1pcs-.jpg" />
-                        <div class="content">
-                            <p class="title mb-0">AAA JARVIS PRO POD CARTRIDGE</p>
-                            <p class="description mb-0">Rp. 24,000</p>
-
-                        </div>
-                    </a>
-                </div>
-                <div class="col-lg-3">
-                    <a class="cardku" href="/detail">
-                        <img
-                            src="https://vp.vapehan.com/api/images/product/rpm-80-rgc-empty-cartridge-1pcs-.jpg" />
-                        <div class="content">
-                            <p class="title mb-0">AAA JARVIS PRO POD CARTRIDGE</p>
-                            <p class="description mb-0">Rp. 24,000</p>
-
-                        </div>
-                    </a>
-                </div>
-                
+                @forelse($produk as $d)
+                    <div class="col-lg-3">
+                        <a class="cardku"  href="/produk/detail/{{$d->id}}">
+                            <img
+                                src="{{$d->getImage[0]->url_foto}}"/>
+                            <div class="content">
+                                <p class="title mb-0 ">{{$d->nama_produk}}</p>
+                                <p class="description mb-0">{{$d->getKategori->nama_kategori}}</p>
+                                <p class="description mb-0">Rp. {{number_format($d->harga,0)}}</p>
+                            </div>
+                        </a>
+                    </div>
+                @empty
+                    <h4 class="text-center">Tidak ada Produk</h4>
+                @endforelse
             </div>
 
             <!-- Modal Tambah-->
@@ -135,22 +99,45 @@
 @section('script')
 
     <script>
-        $(document).ready(function() {
-            $('.slider').slick({
-                dots: true,
-                infinite: true,
-                speed: 500,
-                fade: true,
-                cssEase: 'linear',
-                autoplay: true,
-                autoplaySpeed: 2000,
-                arrows: false
-            });
+        $(document).ready(function () {
+            // $('.slider').slick({
+            //     dots: true,
+            //     infinite: true,
+            //     speed: 500,
+            //     fade: true,
+            //     cssEase: 'linear',
+            //     autoplay: true,
+            //     autoplaySpeed: 2000,
+            //     arrows: false
+            // });
+            getBaner();
         });
-    </script>
 
-    <script>
-        $(document).ready(function() {
+        function getBaner(){
+            $.get('/baner', function (data) {
+                var slider = $('.slider');
+                if (data.length > 0){
+                    $.each(data, function (key, value) {
+                        slider.append('<a target="_blank" href="'+value['url_web']+'"><img src="'+value['url_gambar']+'"/></a>')
+                    })
+
+                    slider.slick({
+                        dots: true,
+                        infinite: true,
+                        speed: 500,
+                        fade: true,
+                        cssEase: 'linear',
+                        autoplay: true,
+                        autoplaySpeed: 2000,
+                        arrows: false
+                    });
+                }else{
+                    slider.append('<h4>Tidak ada baner<h4>')
+                }
+            })
+        }
+
+        $(document).ready(function () {
             $('.slider-kategori').slick({
                 infinite: true,
                 slidesToShow: 4,

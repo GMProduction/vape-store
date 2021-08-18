@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Retur extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'id_pesanan',
+        'status',
+        'tanggal',
+        'alasan'
+    ];
 }

@@ -1,6 +1,9 @@
 @extends('base')
 
 @section('moreCss')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/shimer.css') }}"/>
+
 @endsection
 
 @section('content')
@@ -11,7 +14,7 @@
 
         <div>
             <div style="height: 130px"></div>
-            <h4 class="mb-4  fw-bold"><span class="t-primary">Nama Barang</span> (kategori)</h4>
+            <h4 class="mb-4  fw-bold"><span class="t-primary">{{$data->nama_produk}}</span> ({{$data->getKategori->nama_kategori}})</h4>
             <hr>
 
             <div class="row">
@@ -19,35 +22,20 @@
 
                 <div class="col-6">
                     <div class="slider-for">
-                        <img src="https://vp.vapehan.com/api/images/product/aaa-jarvis-pro-pod-cartridge-1.4-ohm-1pcs-.jpg"
-                            class="gambar-detail" />
-                            <img src="https://vp.vapehan.com/api/images/product/aaa-jarvis-pro-pod-cartridge-1.4-ohm-1pcs-.jpg"
-                            class="gambar-detail" />
-                            <img src="https://vp.vapehan.com/api/images/product/aaa-jarvis-pro-pod-cartridge-1.4-ohm-1pcs-.jpg"
-                            class="gambar-detail" />
-                            <img src="https://vp.vapehan.com/api/images/product/aaa-jarvis-pro-pod-cartridge-1.4-ohm-1pcs-.jpg"
-                            class="gambar-detail" />
+                        <div class="shine" style="width: 100%; height: 620px"></div>
                     </div>
                     <div class="slider-nav mt-3">
-                        <img src="https://vp.vapehan.com/api/images/product/aaa-jarvis-pro-pod-cartridge-1.4-ohm-1pcs-.jpg"
-                            class="m-2" />
-                            <img src="https://vp.vapehan.com/api/images/product/aaa-jarvis-pro-pod-cartridge-1.4-ohm-1pcs-.jpg"
-                            class="m-2" />
-                            <img src="https://vp.vapehan.com/api/images/product/aaa-jarvis-pro-pod-cartridge-1.4-ohm-1pcs-.jpg"
-                            class="m-2" />
-                            <img src="https://vp.vapehan.com/api/images/product/aaa-jarvis-pro-pod-cartridge-1.4-ohm-1pcs-.jpg"
-                            class="m-2" />
+                       <div class="row">
+                           <div class="shine m-2 col" style="width: 100%; height: 150px"></div>
+                           <div class="shine m-2 col" style="width: 100%; height: 150px"></div>
+                           <div class="shine m-2 col" style="width: 100%; height: 150px"></div>
+                           <div class="shine m-2 col" style="width: 100%; height: 150px"></div>
+                       </div>
                     </div>
 
 
                     <p class="mt-5">
-                        Lorem Ipsum is simply dummy text of the printing and typesetting
-                        industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when
-                        an unknown printer took a galley of type and scrambled it to make a type specimen book. It
-                        has survived not only five centuries, but also the leap into electronic typesetting,
-                        remaining essentially unchanged. It was popularised in the 1960s with the release of
-                        Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing
-                        software like Aldus PageMaker including versions of Lorem Ipsum.
+                        {!! $data->deskripsi !!}
                     </p>
                 </div>
 
@@ -57,58 +45,122 @@
 
                         <p class="mb-0 fw-bold">Harga</p>
                         <div class="d-flex justify-content-between">
-                            <h4 class="mb-0 fw-bold t-yellow">Rp. 1.000.000</h4>
+                            <h4 class="mb-0 fw-bold t-yellow">Rp. {{number_format($data->harga, 0)}}</h4>
 
                         </div>
 
-                        <form>
-                         
-
-
-                        
-
-                            
-
-                            <div class="qty-input mt-5">
+                        <form id="form" onsubmit="return savePesanan()">
+                            @csrf
+                            <label for="qty" class="form-label mt-3">Jumlah Pembelian</label><br>
+                            <div class="qty-input mb-3">
                                 <button class="qty-count qty-count--minus" data-action="minus" type="button">-</button>
-                                <input class="product-qty" type="number" name="product-qty" min="0" max="10" value="1">
+                                <input class="product-qty" type="number" name="qty" id="qty" min="1" max="10" value="1" onchange="changeQty()">
                                 <button class="qty-count qty-count--add" data-action="add" type="button">+</button>
                             </div>
 
                             <div class="mb-5 mt-4">
                                 <label for="keteranganTambahan" class="form-label">Keterangan Tambahan</label>
-                                <textarea class="form-control" id="keteranganTambahan" rows="3"></textarea>
+                                <textarea class="form-control" id="keteranganTambahan" name="keterangan" rows="3"></textarea>
                             </div>
 
-                    <div class="mb-3"></div>
-                    <a type="submit" class="btn bt-primary w-100">Tambah Ke keranjang</a>
-                    <a type="submit" class="btn bt-orange  w-100">Beli Sekarang</a>
-                    </form>
+                            <div class="d-flex justify-content-between">
+                                <p>Total</p>
+                                <h4 class="mb-5 fw-bold">Rp. <span id="tampilTotal">0</span></h4>
+
+                            </div>
+                            <input id="totalHarga" name="totalHarga" hidden>
+
+                            <div class="mb-3"></div>
+                            <button type="submit" class="btn bt-primary w-100">Tambah Ke keranjang</button>
+                            <button type="submit" class="btn bt-orange  w-100">Beli Sekarang</button>
+                        </form>
+                    </div>
                 </div>
             </div>
-
+        </div>
     </section>
 
 
 @endsection
 
 @section('script')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
-        $('.slider-for').slick({
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            arrows: false,
-            fade: true,
-            asNavFor: '.slider-nav'
-        });
-        $('.slider-nav').slick({
-            slidesToShow: 3,
-            slidesToScroll: 1,
-            asNavFor: '.slider-for',
-            dots: true,
-            centerMode: true,
-            focusOnSelect: true
-        });
+
+        var ongkir = 0, hargaPesanan, qty = 1, service, estimasi, total;
+
+        $(document).ready(function () {
+            hargaPesanan = parseInt('{{$data->harga}}');
+            getImage()
+            ganti()
+        })
+
+        function afterOrder() {
+
+        }
+        function savePesanan() {
+            saveData('Simpan Pesanan', 'form');
+            return false;
+{{--            @if(auth()->user() && auth()->user()->roles == 'user')--}}
+{{--           --}}
+{{--            return false;--}}
+{{--            @else--}}
+{{--            swal('Silahkan login / register untuk dapat melakukan pemesanan');--}}
+{{--            return false;--}}
+{{--            @endif--}}
+        }
+
+        function getImage(){
+            $.get('/produk/detail/{{$data->id}}/image', function (data) {
+                var sliderAtas = $('.slider-for');
+                var sliderBawah =  $('.slider-nav');
+                sliderAtas.empty();
+                sliderBawah.empty();
+                $.each(data, function (key, value) {
+                    sliderAtas.append('<img src="'+value['url_foto']+'" class="gambar-detail"/>')
+                    sliderBawah.append('<img src="'+value['url_foto']+'" class="m-2">')
+                })
+
+                sliderAtas.slick({
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    arrows: false,
+                    fade: true,
+                    asNavFor: '.slider-nav'
+                });
+                sliderBawah.slick({
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                    asNavFor: '.slider-for',
+                    dots: true,
+                    centerMode: true,
+                    focusOnSelect: true
+                });
+            })
+        }
+
+
+        $('.product-qty').change(function () {
+            qty = parseInt($('#qty').val());
+            console.log(qty)
+            var total = (hargaPesanan * qty) + ongkir;
+            $('#totalHarga').val(total);
+        })
+
+
+
+
+        function ganti() {
+            total = (hargaPesanan * qtyPesanan) + ongkir;
+            $('#ongkir').val(ongkir);
+            $('#service').val(service);
+            $('#estimasi').val(estimasi);
+            $('#tampilBiaya').html(ongkir.toLocaleString());
+            $('#tampilTotal').html(total.toLocaleString());
+            $('#totalHarga').val(total);
+        }
+
+
     </script>
 @endsection

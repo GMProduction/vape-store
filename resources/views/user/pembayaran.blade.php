@@ -9,88 +9,78 @@
         <div class="row item-box mb-5">
             <p class="fw-bold">Pembayaran Bisa di Lakukan di</p>
 
-            <div class="item-box">
-                <div class="d-flex">
-                    <img
-                        src="https://www.freepnglogos.com/uploads/logo-bca-png/bank-central-asia-logo-bank-central-asia-bca-format-cdr-png-gudril-1.png" />
-                    <div class="ms-4 flex-fill">
-                        <div class="d-flex justify-content-between">
-                            <p class="title">Bank BCA</p>
-                           
+            @forelse($bank as $b)
+                <div class="item-box">
+                    <div class="d-flex">
+                        <img
+                            src="{{$b->url_gambar}}"/>
+                        <div class="ms-4 flex-fill">
+                            <div class="d-flex justify-content-between">
+                                <p class="title">{{$b->nama_bank}}</p>
+                            </div>
+                            <p class=" qty mb-0">Holder Name : {{$b->holder_bank}}</p>
+                            <p class="keterangan mb-3">No Rekening : {{$b->norek}}</p>
                         </div>
-                        <p class=" qty mb-0">Holder Name : Joko Susilo</p>
-                        <p class="keterangan mb-3">No Rekening : 12730128</p>
+
                     </div>
 
                 </div>
-
-            </div>
+            @empty
+            @endforelse
 
         </div>
 
-
-        <div class="row item-box">
-            <div class="col-6">
-                <div class="d-flex">
-
-                    <div class="ms-4">
-                        <p class="title mb-0">Nomor Pesanan : 123</p>
-                        <hr>
-                        <p class="qty">tanggal</p>
-                        <p class="keterangan">alamat pengiriman</p>
-                        <p class="totalHarga">Total Harga</p>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-6">
-                <p>Produk yang di beli</p>
-                <div class="item-box mb-2">
+        @forelse($data as $d)
+            <div class="row item-box mb-4">
+                <div class="col-6">
                     <div class="d-flex">
-                        <img
-                            src="https://vp.vapehan.com/api/images/product/aaa-jarvis-pro-pod-cartridge-1.4-ohm-1pcs-.jpg" />
-                        <div class="ms-4 flex-fill">
-                            <div class="d-flex justify-content-between">
-                                <p class="title">Nama Produk</p>
-                              
-                            </div>
-                            <p class="qty mb-3">Qty</p>
-                            <p class="keterangan mb-0">Keterangan</p>
+
+                        <div class="ms-4">
+                            <p class="title mb-0">Nomor Pesanan : {{$d->id}}</p>
+                            <hr>
+                            <p class="qty">{{date('d F Y', strtotime($d->tanggal_pesanan))}}</p>
+                            <p class="keterangan">{{$d->getExpedisi->nama_kota}} - {{$d->getExpedisi->nama_propinsi}}</p>
+                            <p class="keterangan">{{$d->alamat_pengiriman}}</p>
+                            <p class="totalHarga">Rp. {{number_format($d->total_harga, 0)}}</p>
                         </div>
 
                     </div>
 
                 </div>
 
-                <div class="item-box mb-2">
-                    <div class="d-flex">
-                        <img
-                            src="https://vp.vapehan.com/api/images/product/aaa-jarvis-pro-pod-cartridge-1.4-ohm-1pcs-.jpg" />
-                        <div class="ms-4 flex-fill">
-                            <div class="d-flex justify-content-between">
-                                <p class="title">Nama Produk</p>
-                            
+                <div class="col-6">
+                    <p>Produk yang di beli</p>
+                    @forelse($d->getKeranjang as $k)
+                        <div class="item-box mb-2">
+                            <div class="d-flex">
+                                <img
+                                    src="{{$k->getProduk->getImage[0]->url_foto}}"/>
+                                <div class="ms-4 flex-fill">
+                                    <div class="d-flex justify-content-between">
+                                        <p class="title">{{$k->getProduk->nama_produk}}</p>
+                                    </div>
+                                    <p class="qty mb-3">Qty : {{$k->qty}}</p>
+                                    <p class="totalHarga mb-3" style="font-size: 1rem; color: black">Harga : Rp. {{number_format($k->total_harga,0)}}</p>
+                                    <p class="keterangan mb-0">{{$k->keterangan}}</p>
+                                </div>
                             </div>
-                            <p class="qty mb-3">Qty</p>
-                            <p class="keterangan mb-0">Keterangan</p>
                         </div>
+                    @empty
+                        <h5 class="text-center">Tidak ada data pembayaran</h5>
+                    @endforelse
 
+                    <div class="d-flex mt-4">
+
+                        <a class="btn bt-primary btn-sm ms-auto" data-id="{{$d->id}}" id="addBukti">Upload Pembayaran</a>
                     </div>
-
                 </div>
-                <div class="d-flex mt-4">
 
-                    <a class="btn bt-primary btn-sm ms-auto" data-bs-toggle="modal"
-                        data-bs-target="#uploadpembayaran">Upload Pembayaran</a>
-                </div>
             </div>
-        </div>
+        @empty
+            <h4 class="text-center">Tidak ada data pesanan</h4>
+    @endforelse
 
-
-
-        <!-- Modal Tambah-->
+    <!-- Modal Tambah-->
         <div class="modal fade" id="uploadpembayaran" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -99,13 +89,17 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form>
+                        <form id="form" onsubmit="return saveBukti()">
+                            @csrf
+                            <input id="id" name="id" hidden>
                             <div class="mb-3">
-                                <label for="formFile" class="form-label">Bukti Transfer</label>
-                                <input class="form-control" type="file" id="formFile">
+                                <label for="image" class="form-label">Bukti Transfer</label>
+                                <input class="form-control" type="file" id="image" name="image">
                             </div>
-
-
+                            <div class="mb-3">
+                                <label for="formFile" class="form-label">Bank</label>
+                                <select id="bank" name="bank" class="form-control"></select>
+                            </div>
                             <div class="mb-4"></div>
                             <button type="submit" class="btn bt-primary">Save</button>
                         </form>
@@ -122,10 +116,41 @@
 @section('scriptUser')
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
 
             $("#pembayaran").addClass("active");
         });
+
+        function afterSave() {
+
+        }
+
+        function saveBukti() {
+            saveData('Upload Bukti', 'form')
+            return false;
+        }
+
+        $(document).on('click', '#addBukti', function () {
+            var id = $(this).data('id');
+            getBank()
+            $('#uploadpembayaran #id').val(id);
+            $('#uploadpembayaran').modal('show');
+        })
+
+        function getBank(idValue) {
+            var select = $('#bank');
+            select.empty();
+            select.append('<option value="" disabled selected>Pilih Data</option>')
+            $.get('/bank', function (data) {
+                $.each(data, function (key, value) {
+                    if (idValue === value['id']) {
+                        select.append('<option value="' + value['id'] + '" selected>' + value['nama_bank'] + ' ( an. ' + value['holder_bank'] + ' )</option>')
+                    } else {
+                        select.append('<option value="' + value['id'] + '">' + value['nama_bank'] + ' ( an. ' + value['holder_bank'] + ' )</option>')
+                    }
+                })
+            })
+        }
     </script>
 
 @endsection

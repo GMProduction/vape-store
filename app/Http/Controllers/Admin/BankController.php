@@ -49,4 +49,9 @@ class BankController extends CustomController
         $bank = Bank::paginate(10);
         return view('admin.bank.bank')->with(['data' => $bank]);
     }
+
+    public function getBank(){
+        $bank = Bank::all();
+        return $bank;
+    }
 }

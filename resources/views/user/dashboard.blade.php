@@ -28,7 +28,7 @@
                     <div class="card">
                         <div class="card-header">
                             <ul class="nav nav-tabs justify-content-center" role="tablist">
-                               
+
                                 <li class="nav-item">
                                     <a id="keranjang" class="nav-link" data-toggle="tab" href="/user/keranjang" role="tab">
                                         <i class="bx bx-cart"></i> Keranjang
@@ -46,6 +46,11 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
+                                    <a id="dikemas" class="nav-link" data-toggle="tab" href="/user/dikemas" role="tab">
+                                        <i class='bx bx-message-rounded-edit'></i>Dikemas
+                                    </a>
+                                </li>
+                                <li class="nav-item">
                                     <a id="pengiriman" class="nav-link" data-toggle="tab" href="/user/pengiriman" role="tab">
                                         <i class='bx bxs-truck' ></i> Pengiriman
                                     </a>
@@ -56,7 +61,11 @@
                                         <i class='bx bx-check' ></i> Selesai
                                     </a>
                                 </li>
-
+                                <li class="nav-item">
+                                    <a id="dikembalikan" class="nav-link" data-toggle="tab" href="/user/dikembalikan" role="tab">
+                                        <i class='bx bx-redo'></i> Dikembalikan
+                                    </a>
+                                </li>
                                 <li class="nav-item">
                                     <a id="profil" class="nav-link" data-toggle="tab" href="/user/profil" role="tab">
                                         <i class='bx bx-user'></i> Profil
@@ -65,13 +74,13 @@
 
                             </ul>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body" style="min-height: 26vh">
                             <!-- Tab panes -->
                             @yield('contentUser')
                         </div>
                     </div>
                 </div>
-                
+
             </div>
         </div>
 
@@ -92,6 +101,8 @@
             $("#pengiriman").removeClass("active");
             $("#selesai").removeClass("active");
             $("#profil").removeClass("active");
+            $("#dikembalikan").removeClass("active");
+            $("#dikemas").removeClass("active");
 
             $('.slider').slick({
                 dots: true,

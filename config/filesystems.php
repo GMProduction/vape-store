@@ -86,6 +86,20 @@ return [
             'visibility' => 'public',
         ],
 
+        'imageBaner' => [
+            'driver' => 'local',
+            'root' => public_path() . '/images/baner',
+            'url' => env('APP_URL') . '/storage',
+            'visibility' => 'public',
+        ],
+
+        'imageBukti' => [
+            'driver' => 'local',
+            'root' => public_path() . '/images/bukti',
+            'url' => env('APP_URL') . '/storage',
+            'visibility' => 'public',
+        ],
+
     ],
 
     /*
