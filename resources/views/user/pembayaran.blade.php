@@ -94,11 +94,11 @@
                             <input id="id" name="id" hidden>
                             <div class="mb-3">
                                 <label for="image" class="form-label">Bukti Transfer</label>
-                                <input class="form-control" type="file" id="image" name="image">
+                                <input class="form-control" type="file" id="image" name="image" required accept="image/*">
                             </div>
                             <div class="mb-3">
                                 <label for="formFile" class="form-label">Bank</label>
-                                <select id="bank" name="bank" class="form-control"></select>
+                                <select id="bank" name="bank" class="form-control" required></select>
                             </div>
                             <div class="mb-4"></div>
                             <button type="submit" class="btn bt-primary">Save</button>

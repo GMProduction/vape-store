@@ -9,7 +9,6 @@
             <div class="row item-box mb-4">
                 <div class="col-6">
                     <div class="d-flex">
-
                         <div class="ms-4">
                             <p class="title mb-0">Nomor Pesanan : {{$d->id}}</p>
                             <hr>
@@ -18,9 +17,17 @@
                             <p class="keterangan">{{$d->alamat_pengiriman}}</p>
                             <p class="totalHarga">Rp. {{number_format($d->total_harga, 0)}}</p>
                         </div>
-
                     </div>
-
+                    @if($d->getRetur)
+                        <div class="d-flex">
+                            <div class="ms-4">
+                                <hr>
+                                <p class="title mb-0">Retur</p>
+                                <p class="keterangan mb-0">Alasan : {{$d->getRetur->alasan}}</p>
+                                <p class="keterangan"> Status : {{$d->getRetur->status == 2 ? 'Ditolak' : 'Menunggu'}}</p>
+                            </div>
+                        </div>
+                    @endif
                 </div>
 
                 <div class="col-6">
@@ -45,17 +52,15 @@
                     @endforelse
                 </div>
                 <div class="d-flex mt-4 justify-content-end">
-                   <div>
-                       <a class="btn bt-orange btn-sm ms-auto" id="showTerima" data-id="{{$d->id}}">Terima Barang</a>
-                       <a class="btn bt-primary btn-sm ms-auto" id="showRetur" data-id="{{$d->id}}">Retur Barang</a>
-                   </div>
+                    <div>
+                        <a class="btn bt-orange btn-sm ms-auto" id="showTerima" data-id="{{$d->id}}">Terima Barang</a>
+                        <a class="btn bt-primary btn-sm ms-auto" id="showRetur" data-id="{{$d->id}}">Retur Barang</a>
+                    </div>
                 </div>
             </div>
         @empty
             <h4 class="text-center">Tidak ada data pesanan</h4>
         @endforelse
-
-
 
 
     </section>
@@ -70,7 +75,7 @@
                 <div class="modal-body">
                     <form id="formRetur" onsubmit="return SaveRetur()">
                         @csrf
-                        <input id="id" name="id">
+                        <input id="id" name="id" hidden>
                         <div class="mb-3">
                             <label for="alasanretur" class="form-label">Alasan Retur</label>
                             <textarea class="form-control" id="alasanretur" name="alasan" rows="3"></textarea>
@@ -88,7 +93,7 @@
 @section('scriptUser')
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
 
             $("#pengiriman").addClass("active");
         });
@@ -101,18 +106,18 @@
             $('#returbarang').modal('show');
         })
 
-        $(document).on('click','#showTerima', function () {
+        $(document).on('click', '#showTerima', function () {
             var id = $(this).data('id');
             var form_data = {
-                'id' : id,
-                '_token' : '{{csrf_token()}}'
+                'id': id,
+                '_token': '{{csrf_token()}}'
             }
-            saveDataObject('Terima Pesanan',form_data)
+            saveDataObject('Terima Pesanan', form_data)
             return false;
         })
 
         function SaveRetur() {
-            saveData('Retur Pesanan','formRetur', window.location.pathname+'/retur');
+            saveData('Retur Pesanan', 'formRetur', window.location.pathname + '/retur');
             return false
         }
     </script>

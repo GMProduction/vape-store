@@ -38,4 +38,8 @@ class Pesanan extends Model
     public function getRetur(){
         return $this->hasOne(Retur::class, 'id_pesanan');
     }
+
+    public function scopeFilter($query, $filter){
+        return $query->where('status_pesanan','=',$filter);
+    }
 }

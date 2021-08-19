@@ -23,7 +23,7 @@
         <div class="container mt-5">
             <div class="row">
                 <div class="col-md-12">
-                    <p class="category">Selamat datang Joko</p>
+                    <p class="category">Selamat datang {{auth()->user()->nama}}</p>
                     <!-- Nav tabs -->
                     <div class="card">
                         <div class="card-header">

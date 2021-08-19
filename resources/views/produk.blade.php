@@ -10,7 +10,7 @@
 
 
         <div class="slider">
-            <img src="{{$data ? $data[0]->getKategori->url_foto : 'https://lostvape.com/wp-content/uploads/2020/09/Z100A_01.jpg'}}" alt="img04"/>
+            <img src="{{$kategori ? $kategori->url_foto : 'https://lostvape.com/wp-content/uploads/2020/09/Z100A_01.jpg'}}" alt="img04"/>
         </div>
         <div style="height: 50px"></div>
     </section>
@@ -23,7 +23,7 @@
                     <div class="col-lg-3">
                         <a class="cardku" href="/produk/detail/{{$d->id}}">
                             <img
-                                src="{{$d->getImage[0]->url_foto}}"/>
+                                src="{{$d->getImage ? $d->getImage[0]->url_foto : '/static-image/logo.png'}}"/>
                             <div class="content">
                                 <p class="title mb-0">{{$d->nama_produk}}</p>
                                 <p class="description mb-0">{{$d->getKategori->nama_kategori}}</p>

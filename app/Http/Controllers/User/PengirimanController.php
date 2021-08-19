@@ -23,7 +23,6 @@ class PengirimanController extends CustomController
 
     public function retur(){
         $pesanan = Pesanan::find($this->request->get('id'));
-        $pesanan->update(['status_pesanan' => 5]);
         $pesanan->getRetur()->create(['alasan' => \request('alasan'),'status' => 0, 'tanggal' => $this->now->format('Y-m-d H-i-s')]);
         return response()->json('berhasil');
     }

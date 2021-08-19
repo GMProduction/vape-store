@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\BanerController;
 use App\Http\Controllers\Admin\BankController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\MemberController;
 use App\Http\Controllers\Admin\PesananController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\User\KeranjangController;
 use App\Http\Controllers\User\MenungguController;
 use App\Http\Controllers\User\PembayaranController;
 use App\Http\Controllers\User\PengirimanController;
+use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\SelesaiController;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +38,7 @@ Route::get('/login', function () {
     return view('login');
 });
 Route::post('/login', [AuthController::class,'login']);
+Route::get('/logout', [AuthController::class,'logout']);
 
 Route::get('/tentang-kami', function () {
     return view('tentangKami');
@@ -59,14 +62,9 @@ Route::get('/user/proses', function () {
     return view('user/proses-desain');
 });
 
-Route::get('/user/profil', function () {
-    return view('user/profil');
-});
 
 
-Route::get('/user/profil', function () {
-    return view('user/profil');
-});
+
 
 Route::prefix('/user')->group(function (){
     Route::get('/', function () {
@@ -81,13 +79,12 @@ Route::prefix('/user')->group(function (){
     Route::get('/dikemas', [DikemasController::class,'index']);
     Route::get('/dikembalikan', [DikembalikanController::class,'index']);
     Route::get('/selesai', [SelesaiController::class, 'index']);
+    Route::match(['post','get'],'/profil', [ProfileController::class, 'index']);
 });
 
 
 Route::prefix('/admin')->group(function (){
-    Route::get('/', function () {
-        return view('admin.dashboard');
-    });
+    Route::get('/', [DashboardController::class, 'index']);
 
     Route::match(['get','post'],'/bank', [BankController::class,'index']);
     Route::get('/kategori', [KategoriController::class,'index']);
@@ -104,8 +101,10 @@ Route::prefix('/admin')->group(function (){
     Route::get('/pelanggan', [MemberController::class,'index']);
 
     Route::match(['post','get'],'/baner', [BanerController::class,'index']);
+    Route::get('/baner/{id}/delete', [BanerController::class,'delete']);
 
     Route::get('/pesanan', [PesananController::class,'index']);
+    Route::post('/pesanan/{id}/retur', [PesananController::class,'konfirmasiRetur']);
     Route::match(['post','get'],'/pesanan/{id}', [PesananController::class,'getDetailPesanan']);
 });
 
@@ -125,5 +124,5 @@ Route::get('/get-cost',[RajaOngkirController::class,'cost']);
 
 Route::post('/register',[AuthController::class,'register']);
 
-Route::get('/barang', [BarangController::class, 'index']);
-Route::post('/barang', [BarangController::class, 'createProduct']);
+Route::get('/get-keranjang',[HomeController::class,'getKeranjang']);
+

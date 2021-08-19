@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Baner;
 use App\Models\Kategori;
+use App\Models\Keranjang;
 use App\Models\Produk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -23,5 +25,10 @@ class HomeController extends Controller
     public function baner(){
         $baner = Baner::all();
         return $baner;
+    }
+
+    public function getKeranjang(){
+        $keranjang = Keranjang::where([['id_user','=', Auth::id()],['id_pesanan','=', null]])->count('*');
+        return $keranjang;
     }
 }

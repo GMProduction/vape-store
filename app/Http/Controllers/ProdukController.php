@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helper\CustomController;
 use App\Models\FotoProduk;
+use App\Models\Kategori;
 use App\Models\Keranjang;
 use App\Models\Produk;
 use Illuminate\Http\Request;
@@ -14,9 +15,13 @@ class ProdukController extends CustomController
     //
     public function index()
     {
-        $produk = Produk::orderBy('created_at', 'DESC')->filter(\request('kategori'))->paginate(8)->withQueryString();
-
-        return view('produk')->with(['data' => $produk]);
+        $produk   = Produk::orderBy('created_at', 'DESC')->filter(\request('kategori'))->paginate(8)->withQueryString();
+        $kategori = Kategori::where('nama_kategori', '=', \request('kategori'))->first();
+        $data     = [
+            'data'     => $produk,
+            'kategori' => $kategori,
+        ];
+        return view('produk')->with($data);
     }
 
     public function detail($id)
@@ -29,13 +34,14 @@ class ProdukController extends CustomController
     public function simpanPesanan($id)
     {
         $field = [
-            'id_produk' => $id,
-            'qty'       => $this->request->get('qty'),
+            'id_produk'   => $id,
+            'qty'         => $this->request->get('qty'),
             'total_harga' => $this->request->get('totalHarga'),
-            'keterangan' => $this->request->get('keterangan'),
-            'id_user' => Auth::id()
+            'keterangan'  => $this->request->get('keterangan'),
+            'id_user'     => Auth::id(),
         ];
         Keranjang::create($field);
+
         return response()->json('berhasil', 200);
     }
 

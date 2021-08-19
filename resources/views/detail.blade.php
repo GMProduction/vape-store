@@ -72,7 +72,7 @@
 
                             <div class="mb-3"></div>
                             <button type="submit" class="btn bt-primary w-100">Tambah Ke keranjang</button>
-                            <button type="submit" class="btn bt-orange  w-100">Beli Sekarang</button>
+                            <button type="button" class="btn bt-orange w-100" onclick="beliSekarang()">Beli Sekarang</button>
                         </form>
                     </div>
                 </div>
@@ -97,18 +97,27 @@
         })
 
         function afterOrder() {
+            window.location = '/user/keranjang'
+        }
 
+        function beliSekarang() {
+            @if(auth()->user() && auth()->user()->roles == 'user')
+            saveData('Beli Sekarang', 'form', null, afterOrder);
+            return false;
+            @else
+            swal('Silahkan login / register sebagai member untuk dapat melakukan pemesanan');
+            return false;
+            @endif
         }
         function savePesanan() {
-            saveData('Simpan Pesanan', 'form');
+
+            @if(auth()->user() && auth()->user()->roles == 'user')
+            saveData('Masukkan keranjang', 'form');
             return false;
-{{--            @if(auth()->user() && auth()->user()->roles == 'user')--}}
-{{--           --}}
-{{--            return false;--}}
-{{--            @else--}}
-{{--            swal('Silahkan login / register untuk dapat melakukan pemesanan');--}}
-{{--            return false;--}}
-{{--            @endif--}}
+            @else
+            swal('Silahkan login / register sebagai member untuk dapat melakukan pemesanan');
+            return false;
+            @endif
         }
 
         function getImage(){

@@ -1,5 +1,7 @@
 @extends('user.dashboard')
 
+
+
 @section('contentUser')
 
 
@@ -70,13 +72,13 @@
                             </div>
 
                             <hr>
-                            <input id="ongkir" name="ongkir">
-                            <input id="service" name="service">
-                            <input id="estimasi" name="estimasi">
-                            <input id="namaKota" name="nama_kota">
-                            <input id="propinsi" name="propinsi">
-                            <input id="propinsiid" name="propinsiid">
-                            <input id="totalHarga" name="totalHarga">
+                            <input id="ongkir" name="ongkir" hidden>
+                            <input id="service" name="service" hidden>
+                            <input id="estimasi" name="estimasi" hidden>
+                            <input id="namaKota" name="nama_kota" hidden>
+                            <input id="propinsi" name="propinsi" hidden>
+                            <input id="propinsiid" name="propinsiid" hidden>
+                            <input id="totalHarga" name="totalHarga" hidden>
                             <div class="d-flex justify-content-between">
                                 <p>Total</p>
                                 <h4 class="mb-5 fw-bold" id="tampilTotal"></h4>
@@ -101,6 +103,9 @@
 @endsection
 
 @section('scriptUser')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
         var service, ongkir = 0, estimasi, total, subTotal;

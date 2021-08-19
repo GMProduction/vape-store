@@ -23,17 +23,20 @@
                     <div class="mb-3">
                         <label for="kategori" class="form-label">Status Pembayaran</label>
                         <div class="d-flex">
-                            <select class="form-select" aria-label="Default select example" name="kategori">
-                                <option selected>Semua</option>
-                                <option value="1">Menunggu Pembayaran</option>
-                                <option value="2">Menunggu Konfirmasi</option>
-                                <option value="3">Sudah</option>
-                            </select>
+                            <form id="formCari" action="/admin/pesanan">
+                                <select class="form-select" aria-label="Default select example" id="statusCari" name="status">
+                                    <option selected value="">Semua</option>
+                                    <option value="Menunggu Pembayaran">Menunggu Pembayaran</option>
+                                    <option value="Menunggu Konfirmasi">Menunggu Konfirmasi</option>
+                                    <option value="Diproses">Diproses</option>
+                                    <option value="Dikirim">Dikirim</option>
+                                    <option value="Selesai">Selesai</option>
+                                    <option value="Dikembalikan">Dikembalikan</option>
+                                </select>
+                            </form>
                         </div>
                     </div>
                 </div>
-
-
             </div>
 
             <table class="table table-striped table-bordered ">
@@ -54,7 +57,7 @@
                         <td>{{$d->getPelanggan->nama}}</td>
                         <td>{{date('d F Y', strtotime($d->tanggal_pesanan))}}</td>
                         <td>Rp. {{number_format($d->total_harga, 0)}}</td>
-                        <td>{{$d->status_pesanan == 1 ? 'Menungu Konfirmasi' : ($d->status_pesanan == 2 ? 'Dikemas' : ($d->status_pesanan == 3 ? 'Dikirim' : ($d->status_pesanan == 4 ? 'Selesai' : ($d->status_pesanan === 5 ? 'Dikembalikan' : 'Menunggu Pembayaran' ))))}}</td>
+                        <td>{{$d->status_pesanan == 1 ? 'Menungu Konfirmasi' : ($d->status_pesanan == 2 ? 'Dikemas' : ($d->status_pesanan == 3 ? ($d->getRetur ? ($d->getRetur->status == 0 ? 'Minta Retur' : ($d->getRetur->status == 1 ? 'Retur Diterima' : 'Retur Ditolak')) : 'Dikirim') : ($d->status_pesanan == 4 ? 'Selesai' : ($d->status_pesanan === 5 ? 'Dikembalikan' : 'Menunggu Pembayaran' ))))}}</td>
                         <td>
                             <button type="button" class="btn btn-primary btn-sm" data-id="{{$d->id}}" id="detailData">Detail
                             </button>
@@ -62,7 +65,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="text-center">Tidan ada data pesanan</td>
+                        <td colspan="6" class="text-center">Tidan ada data pesanan</td>
                     </tr>
                 @endforelse
 
@@ -105,6 +108,11 @@
                                         </div>
                                     </div>
                                     <div class="col-6">
+                                        <div class="mb-3">
+                                            <label for="dNamaPelanggan" class="form-label fw-bold">Detail Expedisi</label>
+                                            <p id="" class="mb-0">Expedisi : <span id="dExpedisi"></span> </p>
+                                            <p id="">Estimasi : <span id="dEstimasi"></span></p>
+                                        </div>
                                         <p class="mb-0 fw-bold">Biaya</p>
                                         <div class="d-flex justify-content-between">
                                             <p>Pesanan</p>
@@ -148,13 +156,20 @@
 
                                 <div>
                                     <p>Action</p>
-                                    <a class="btn btn-sm btn-primary">chat</a>
+                                    <a class="btn btn-sm btn-primary" id="dChat" target="_blank">chat</a>
                                     <a class="btn btn-sm btn-warning d-none" id="btnKirim" onclick="saveKonfirmasi(3)">Kirim Barang</a>
                                 </div>
 
                                 <div class="mt-3">
                                     <p class="mb-1">Status : <span id="dStatus" class="fw-bold"></span></p>
                                     <p id="dAlasan"></p>
+                                </div>
+                                <div class="mb-3 d-none" id="btnKonfirmasiRetur">
+                                    <label for="kategori" class="form-label">Konfirmasi Retur</label>
+                                    <div class="d-flex">
+                                        <button type="submit" class="btn btn-sm btn-success me-2" onclick="saveRetur(1)">Terima</button>
+                                        <button type="submit" class="btn btn-sm btn-danger" onclick="saveRetur(2)">Tolak</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -188,7 +203,7 @@
 @section('script')
     <script>
         $(document).ready(function () {
-
+            $('#statusCari').val('{{request('status')}}')
         })
         var idPesanan;
         $(document).on('click', '#detailData', function () {
@@ -197,10 +212,15 @@
             $('#detail1').modal('show');
         })
 
+        $(document).on('change', '#statusCari', function () {
+            document.getElementById('formCari').submit();
+        })
+
         function getDetail() {
             $.get('/admin/pesanan/' + idPesanan, function (data) {
                 console.log(data);
                 $('#dNamaPelanggan').html(data['get_pelanggan']['nama'])
+                $('#dChat').attr('href','https://wa.me/'+data['get_pelanggan']['no_hp'])
                 $('#dAlamatPengirimanKota').html(data['get_expedisi']['nama_kota'] + ' - ' + data['get_expedisi']['nama_propinsi'])
                 $('#dAlamatPengiriman').html(data['alamat_pengiriman'])
                 $('#dtanggalPesanan').html(moment(data['tanggal_pesanan']).format('DD MMMM YYYY'))
@@ -210,10 +230,13 @@
                 $('#dTotal').html(data['total_harga'].toLocaleString())
                 $('#dBuktiTransfer').attr('href', data['url_pembayaran'])
                 $('#dBuktiTransfer img').attr('src', data['url_pembayaran'])
+                $('#dExpedisi').html(data['get_expedisi']['nama'].toUpperCase()+' ( '+data['get_expedisi']['service']+' )')
+                $('#dEstimasi').html(data['get_expedisi']['estimasi']+' Hari')
                 var status = data['status_pesanan'];
                 var txtStatus = 'Menunggu Pembayaran';
                 $('#btnKonfirmasi').addClass('d-none')
                 $('#btnKirim').addClass('d-none')
+                $('#btnKonfirmasiRetur').addClass('d-none')
                 $('#dAlasan').html('')
                 if (status === 1) {
                     $('#btnKonfirmasi').removeClass('d-none')
@@ -223,6 +246,11 @@
                     txtStatus = 'Dikemas'
                 }else if(status === 3){
                     txtStatus = 'Dikirim'
+                    if(data['get_retur'] && data['get_retur']['status'] === 0){
+                        txtStatus = 'Minta Retur'
+                        $('#dAlasan').html(data['get_retur']['alasan'])
+                        $('#btnKonfirmasiRetur').removeClass('d-none')
+                    }
                 }else if(status === 4){
                     txtStatus = 'Selesai'
                 }else if(status === 5){
@@ -259,6 +287,21 @@
                 '_token' : '{{csrf_token()}}'
             };
             saveDataObject(title,form_data,'/admin/pesanan/'+idPesanan,getDetail)
+            return false;
+
+        }
+
+        function saveRetur(a) {
+            var title = 'Tolak Retur'
+            if (a === 1) {
+                title = 'Terima Retur'
+            }
+            var form_data = {
+                'status' : a,
+                '_token' : '{{csrf_token()}}'
+            };
+            saveDataObject(title,form_data,'/admin/pesanan/'+idPesanan+'/retur',getDetail)
+            return false;
         }
     </script>
 
