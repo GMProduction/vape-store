@@ -10,7 +10,8 @@ class MemberController extends Controller
 {
     //
     public function index(){
-        $user = User::all();
+        $user = User::where('roles','=','user')->get();
+
         return view('admin.pelanggan.pelanggan')->with(['data' => $user]);
     }
 }

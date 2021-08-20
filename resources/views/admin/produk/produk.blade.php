@@ -34,6 +34,8 @@
                 <th>#</th>
                 <th>nama Produk</th>
                 <th>Kategori</th>
+                <th>Stok</th>
+                <th>Sisa Stok</th>
                 <th>Harga</th>
                 <th>Action</th>
                 </thead>
@@ -42,6 +44,8 @@
                         <td>{{$key+1}}</td>
                         <td>{{$d->nama_produk}}</td>
                         <td>{{$d->getKategori->nama_kategori}}</td>
+                        <td>{{$d->stok}}</td>
+                        <td>{{$d->sisa}}</td>
                         <td>Rp. {{number_format($d->harga,0)}}</td>
                         <td>
                             <a type="button" class="btn btn-success btn-sm" id="editData" href="/admin/produk/data?id={{$d->id}}">Ubah

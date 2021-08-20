@@ -15,7 +15,23 @@
                         <p class="qty">{{date('d F Y', strtotime($d->tanggal_pesanan))}}</p>
                         <p class="keterangan">{{$d->getExpedisi->nama_kota}} - {{$d->getExpedisi->nama_propinsi}}</p>
                         <p class="keterangan">{{$d->alamat_pengiriman}}</p>
-                        <p class="totalHarga">Rp. {{number_format($d->total_harga, 0)}}</p>
+                        <table class="table mt-3">
+                            <tr style="border: none">
+                                <td class="border-0">Sub Total</td>
+                                <td class="border-0">:</td>
+                                <td class="text-end border-0"> {{number_format($d->total_harga - $d->biaya_pengiriman,0)}}</td>
+                            </tr>
+                            <tr>
+                                <td>Ongkir</td>
+                                <td>:</td>
+                                <td class="text-end">{{number_format($d->biaya_pengiriman,0)}}</td>
+                            </tr>
+                            <tr>
+                                <td class="border-0">Grand Total</td>
+                                <td class="border-0">:</td>
+                                <td class="totalHarga text-end border-0">{{number_format($d->total_harga, 0)}}</td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>

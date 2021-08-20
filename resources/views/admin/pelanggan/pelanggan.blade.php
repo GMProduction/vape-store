@@ -1,7 +1,7 @@
 @extends('admin.base')
 
 @section('title')
-    Data Barang
+    Data Pelanggan
 @endsection
 
 @section('content')

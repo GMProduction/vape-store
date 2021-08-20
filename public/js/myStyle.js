@@ -66,6 +66,7 @@ $(document).ready(function(){
       } else {
         qty = qty <= qtyMin ? qtyMin : (qty -= 1);
 
+
         if (qty == qtyMin) {
           $this.attr("disabled", true);
         }

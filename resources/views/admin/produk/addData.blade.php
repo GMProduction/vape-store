@@ -43,6 +43,10 @@
                     </div>
                 </div>
                 <div class="mb-3">
+                    <label for="stok" class="form-label">Stok</label>
+                    <input type="number" class="form-control" id="stok" name="stok">
+                </div>
+                <div class="mb-3">
                     <label for="harga" class="form-label">Harga</label>
                     <input type="number" class="form-control" id="harga" name="harga">
                 </div>
@@ -84,6 +88,7 @@
             $("#deskripsi").summernote('code', '{!! $data->deskripsi ?? '' !!}');
             getSelect('id_kategori', '/kategori', 'nama_kategori',{{$data->id_kategori ?? null}})
             $('#formProduk #id').val('{{$data->id ?? null}}');
+            $('#formProduk #stok').val('{{$data->stok ?? null}}');
             $('#namaProduk').val('{{$data->nama_produk ?? null}}');
             $('#harga').val('{{$data->harga ?? null}}');
             id = '{{request('id')}}'

@@ -6,6 +6,7 @@ use App\Helper\CustomController;
 use App\Http\Controllers\Controller;
 use App\Models\Bank;
 use App\Models\FotoProduk;
+use App\Models\Keranjang;
 use App\Models\Produk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -16,7 +17,19 @@ class ProdukController extends CustomController
     public function index(){
 
         $produk = Produk::paginate(10);
-        return view('admin.produk.produk')->with(['data' => $produk]);
+        $data = [];
+        foreach ($produk as $key => $d){
+            $data[$key] = $d;
+            $laku = Keranjang::with('getPesanan')->where('id_produk', '=', $d->id)->whereHas(
+                'getPesanan',
+                function ($q) {
+                    return $q->where('status_pesanan', '>=', 2);
+                }
+            )->sum('qty');
+            $sisa = (int) $d->stok - (int) $laku;
+            Arr::add($data[$key],'sisa', $sisa);
+        }
+        return view('admin.produk.produk')->with(['data' => $data]);
     }
 
     public function data(){
@@ -27,6 +40,7 @@ class ProdukController extends CustomController
                     'deskripsi' => 'required',
                     'harga' => 'required',
                     'id_kategori' => 'required',
+                    'stok' => 'required'
                 ]
             );
 

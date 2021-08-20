@@ -19,6 +19,8 @@ use App\Http\Controllers\User\PembayaranController;
 use App\Http\Controllers\User\PengirimanController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\SelesaiController;
+use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\UserMiddleware;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -66,7 +68,7 @@ Route::get('/user/proses', function () {
 
 
 
-Route::prefix('/user')->group(function (){
+Route::prefix('/user')->middleware(UserMiddleware::class)->group(function (){
     Route::get('/', function () {
         return view('user/dashboard');
     });
@@ -83,7 +85,7 @@ Route::prefix('/user')->group(function (){
 });
 
 
-Route::prefix('/admin')->group(function (){
+Route::prefix('/admin')->middleware(AdminMiddleware::class)->group(function (){
     Route::get('/', [DashboardController::class, 'index']);
 
     Route::match(['get','post'],'/bank', [BankController::class,'index']);

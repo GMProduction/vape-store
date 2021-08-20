@@ -10,7 +10,7 @@
             <p class="fw-bold">Pembayaran Bisa di Lakukan di</p>
 
             @forelse($bank as $b)
-                <div class="item-box">
+                <div class="item-box mb-2">
                     <div class="d-flex">
                         <img
                             src="{{$b->url_gambar}}"/>
@@ -27,6 +27,7 @@
                 </div>
             @empty
             @endforelse
+            <label class="fw-bold">Batas waktu pembayaran maksimal 1 x 24 jam</label>
 
         </div>
 
@@ -41,7 +42,25 @@
                             <p class="qty">{{date('d F Y', strtotime($d->tanggal_pesanan))}}</p>
                             <p class="keterangan">{{$d->getExpedisi->nama_kota}} - {{$d->getExpedisi->nama_propinsi}}</p>
                             <p class="keterangan">{{$d->alamat_pengiriman}}</p>
-                            <p class="totalHarga">Rp. {{number_format($d->total_harga, 0)}}</p>
+                            <table class="table mt-3">
+                                <tr style="border: none">
+                                    <td class="border-0">Sub Total</td>
+                                    <td class="border-0">:</td>
+                                    <td class="text-end border-0"> {{number_format($d->total_harga - $d->biaya_pengiriman,0)}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Ongkir</td>
+                                    <td>:</td>
+                                    <td class="text-end">{{number_format($d->biaya_pengiriman,0)}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="border-0">Grand Total</td>
+                                    <td class="border-0">:</td>
+                                    <td class="totalHarga text-end border-0">{{number_format($d->total_harga, 0)}}</td>
+                                </tr>
+                            </table>
+
+
                         </div>
 
                     </div>
@@ -68,13 +87,13 @@
                     @empty
                         <h5 class="text-center">Tidak ada data pembayaran</h5>
                     @endforelse
+                    <hr>
 
                     <div class="d-flex mt-4">
 
                         <a class="btn bt-primary btn-sm ms-auto" data-id="{{$d->id}}" id="addBukti">Upload Pembayaran</a>
                     </div>
                 </div>
-
             </div>
         @empty
             <h4 class="text-center">Tidak ada data pesanan</h4>

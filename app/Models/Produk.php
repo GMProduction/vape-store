@@ -14,6 +14,7 @@ class Produk extends Model
         'nama_produk',
         'deskripsi',
         'harga',
+        'stok',
     ];
 
     protected $with = ['getKategori','getImage'];

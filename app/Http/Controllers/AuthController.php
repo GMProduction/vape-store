@@ -32,6 +32,8 @@ class AuthController extends CustomController
             ]
         );
 
+        $number = strpos($fieldMember['no_hp'],"0") == 0 ? preg_replace('/0/','62',$fieldMember['no_hp'],1) : $fieldMember['no_hp'];
+
         $user = User::create(
             [
                 'username' => $fieldUser['username'],
@@ -39,7 +41,7 @@ class AuthController extends CustomController
                 'password' => Hash::make($fieldUser['password']),
                 'nama'     => $fieldMember['nama'],
                 'alamat'   => $fieldMember['alamat'],
-                'no_hp'    => $fieldMember['no_hp'],
+                'no_hp'    => $number,
             ]
         );
 
