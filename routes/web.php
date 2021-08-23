@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\BanerController;
 use App\Http\Controllers\Admin\BankController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\KategoriController;
+use App\Http\Controllers\Admin\LaporanController;
 use App\Http\Controllers\Admin\MemberController;
 use App\Http\Controllers\Admin\PesananController;
 use App\Http\Controllers\Admin\ProdukController;
@@ -108,6 +109,9 @@ Route::prefix('/admin')->middleware(AdminMiddleware::class)->group(function (){
     Route::get('/pesanan', [PesananController::class,'index']);
     Route::post('/pesanan/{id}/retur', [PesananController::class,'konfirmasiRetur']);
     Route::match(['post','get'],'/pesanan/{id}', [PesananController::class,'getDetailPesanan']);
+
+    Route::get('/laporan', [LaporanController::class,'index']);
+
 });
 
 Route::get('/kategori', [KategoriController::class,'dataKategori'])->name('produk_kategori');

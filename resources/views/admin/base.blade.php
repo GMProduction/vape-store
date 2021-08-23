@@ -86,7 +86,13 @@
                 </li>
 
             </a>
+            <a href="/admin/laporan" id="pesanan">
+                <li href="#" class="nav-link t-white">
+                    <i class="bx bxs-file"></i>
+                    <span class="mx-2">Laporan</span>
+                </li>
 
+            </a>
 
 
 
