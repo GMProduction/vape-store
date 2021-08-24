@@ -111,6 +111,7 @@ Route::prefix('/admin')->middleware(AdminMiddleware::class)->group(function (){
     Route::match(['post','get'],'/pesanan/{id}', [PesananController::class,'getDetailPesanan']);
 
     Route::get('/laporan', [LaporanController::class,'index']);
+    Route::get('/cetaklaporan',[LaporanController::class, 'cetakLaporan']);
 
 });
 

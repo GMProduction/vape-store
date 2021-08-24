@@ -16,9 +16,23 @@
 
         <div class="table-container">
 
-            <div class="d-flex">
-                <h5 class="mb-3">Laporan</h5>
+            <div class="d-flex justify-content-between align-items-center mb-3">
 
+            <h5 class="mb-3">Laporan</h5>
+                <form id="formTanggal">
+                    <div class="d-flex align-items-center">
+                        <i class='bx bx-calendar me-2' style="font-size: 1.4rem"></i>
+                        <div class="me-2">
+                            <div class="input-group input-daterange">
+                                <input type="text" class="form-control me-2" name="start" value="{{request('start')}}">
+                                <div class="input-group-addon">to</div>
+                                <input type="text" class="form-control ms-2" name="end" value="{{request('end')}}">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success mx-2">Cari</button>
+                        <a class="btn btn-warning" id="cetak" target="_blank">Cetak</a>
+                    </div>
+                </form>
 
             </div>
 
@@ -82,7 +96,14 @@
 
 @section('script')
     <script>
-        $(document).ready(function () {
+        $('.input-daterange input').each(function () {
+            $(this).datepicker({
+                format: "dd-mm-yyyy"
+            });
+        });
+        $(document).on('click','#cetak', function () {
+            console.log('/cetaklaporan?'+$('#formTanggal').serialize());
+            $(this).attr('href', '/admin/cetaklaporan?'+$('#formTanggal').serialize());
         })
     </script>
 
