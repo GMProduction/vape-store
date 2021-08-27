@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\BankController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\LaporanController;
+use App\Http\Controllers\Admin\LaporanReturController;
 use App\Http\Controllers\Admin\MemberController;
 use App\Http\Controllers\Admin\PesananController;
 use App\Http\Controllers\Admin\ProdukController;
@@ -112,6 +113,9 @@ Route::prefix('/admin')->middleware(AdminMiddleware::class)->group(function (){
 
     Route::get('/laporan', [LaporanController::class,'index']);
     Route::get('/cetaklaporan',[LaporanController::class, 'cetakLaporan']);
+
+    Route::get('/laporan-retur', [LaporanReturController::class,'index']);
+    Route::get('/cetaklaporan-retur',[LaporanReturController::class, 'cetakLaporan']);
 
 });
 

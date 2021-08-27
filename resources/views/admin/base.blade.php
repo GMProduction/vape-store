@@ -90,11 +90,17 @@
         <a href="/admin/laporan" id="pesanan">
             <li href="#" class="nav-link t-white">
                 <i class="bx bxs-file"></i>
-                <span class="mx-2">Laporan</span>
+                <span class="mx-2">Laporan Penjualan</span>
             </li>
 
         </a>
+        <a href="/admin/laporan-retur" id="pesanan">
+            <li href="#" class="nav-link t-white">
+                <i class="bx bxs-file"></i>
+                <span class="mx-2">Laporan Retur</span>
+            </li>
 
+        </a>
 
         <a href="/logout" class="mt-auto">
             <li href="#" class="nav-link t-white">

@@ -52,7 +52,7 @@
         <img src="{{ public_path('static-image/logo.png') }}" style="height: 50px; float: left;" />
 
         <div>
-            <h4 style=" text-align: right;margin-bottom:0;margin-top:0">Laporan Penjualan</h4>
+            <h4 style=" text-align: right;margin-bottom:0;margin-top:0">{{$title}}</h4>
             <h5 style=" text-align: right;margin-bottom:0;margin-top:0">Periode</h5>
             @if($start)
                 <h5 style=" text-align: right;margin-bottom:0;margin-top:0">{{date('d F Y', strtotime($start))}} - {{date('d F Y', strtotime($end))}}</h5>
